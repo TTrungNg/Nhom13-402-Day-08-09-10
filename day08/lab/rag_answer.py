@@ -268,13 +268,12 @@ def retrieve_hybrid(
     #3. Sắp xếp theo RRF score giảm dần
     sorted_docs = sorted(doc_scores.items(), key=lambda x: x[1]["rrf_score"], reverse=True)
     top_docs = [doc_id for doc_id, _ in sorted_docs[:top_k]]
-    #4. Trả về top_k docs — dùng cùng key logic với doc_scores để không bị mismatch
+    #4. Trả về top_k docs — dùng get_doc_id() giống doc_scores để không bị key mismatch
     id_to_doc = {}
-    for rank, doc in enumerate(dense_results, 1):
-        key = doc["metadata"].get("id", f"dense_{rank}")
-        id_to_doc[key] = doc
-    for rank, doc in enumerate(sparse_results, 1):
-        key = doc["metadata"].get("id", f"sparse_{rank}")
+    for doc in dense_results:
+        id_to_doc[get_doc_id(doc)] = doc
+    for doc in sparse_results:
+        key = get_doc_id(doc)
         if key not in id_to_doc:
             id_to_doc[key] = doc
     return [id_to_doc[doc_id] for doc_id in top_docs if doc_id in id_to_doc]
