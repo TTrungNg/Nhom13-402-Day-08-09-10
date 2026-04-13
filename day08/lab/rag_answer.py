@@ -195,6 +195,16 @@ def retrieve_sparse(query: str, top_k: int = TOP_K_SEARCH) -> List[Dict[str, Any
 # RETRIEVAL — HYBRID (Dense + Sparse với Reciprocal Rank Fusion)
 # =============================================================================
 
+def get_doc_id(doc: Dict[str, Any]) -> str:
+    """Tạo unique doc_id từ metadata để match chunks giữa dense và sparse."""
+    meta = doc["metadata"]
+    # Dùng combination fields để đảm bảo unique
+    source = meta.get("source", "unknown").replace("/", "_")
+    section = meta.get("section_title", meta.get("section", "unknown"))
+    chunk_idx = meta.get("chunk_index", 0)
+    return f"{source}|{section}|{chunk_idx}"
+
+
 def retrieve_hybrid(
     query: str,
     top_k: int = TOP_K_SEARCH,
@@ -227,14 +237,15 @@ def retrieve_hybrid(
     # TODO Sprint 3: Implement hybrid RRF
     dense_results = retrieve_dense(query, top_k=top_k * 2)
     sparse_results = retrieve_sparse(query, top_k=top_k * 2)
+    
     #RRF fusion logic:
     #1. Tạo dict để map doc_id → (dense_rank, sparse_rank)
     doc_scores = {}
     for rank, doc in enumerate(dense_results, 1):
-        doc_id = doc["metadata"].get("id", f"dense_{rank}")
+        doc_id = get_doc_id(doc)
         doc_scores[doc_id] = {"dense_rank": rank, "sparse_rank": None}
     for rank, doc in enumerate(sparse_results, 1):
-        doc_id = doc["metadata"].get("id", f"sparse_{rank}")
+        doc_id = get_doc_id(doc)
         if doc_id in doc_scores:
             doc_scores[doc_id]["sparse_rank"] = rank
         else:
@@ -257,9 +268,28 @@ def retrieve_hybrid(
     #3. Sắp xếp theo RRF score giảm dần
     sorted_docs = sorted(doc_scores.items(), key=lambda x: x[1]["rrf_score"], reverse=True)
     top_docs = [doc_id for doc_id, _ in sorted_docs[:top_k]]
-    #4. Trả về top_k docs
-    id_to_doc = {doc["metadata"].get("id", f"unknown_{i}"): doc for i, doc in enumerate(dense_results + sparse_results)}
-    return [id_to_doc[doc_id] for doc_id in top_docs if doc_id in id_to_doc]
+    
+    #4. Tạo mapping từ doc_id → chunk (ưu tiên dense_results)
+    all_docs = {get_doc_id(doc): doc for doc in dense_results}
+    for doc in sparse_results:
+        doc_id = get_doc_id(doc)
+        if doc_id not in all_docs:
+            all_docs[doc_id] = doc
+    
+    #5. Trả về top_k docs với RRF score
+    results = []
+    for doc_id in top_docs:
+        if doc_id in all_docs:
+            chunk = all_docs[doc_id].copy()
+            chunk["rrf_score"] = doc_scores[doc_id]["rrf_score"]
+            results.append(chunk)
+    
+    # Fallback nếu không có kết quả
+    if not results:
+        print("[retrieve_hybrid] Warning: No hybrid results, falling back to dense")
+        return retrieve_dense(query, top_k)
+    
+    return results[:top_k]
 
 
 # =============================================================================
@@ -577,19 +607,20 @@ if __name__ == "__main__":
     print("Sprint 2 + 3: RAG Answer Pipeline")
     print("=" * 60)
 
-    # Test queries từ data/test_questions.json
+    # Test queries đọc từ data/grading_questions.json
+
     test_queries = [
-        "SLA xử lý ticket P1 là bao lâu?",
-        "Khách hàng có thể yêu cầu hoàn tiền trong bao nhiêu ngày?",
-        "Ai phải phê duyệt để cấp quyền Level 3?",
-        "ERR-403-AUTH là lỗi gì?",  # Query không có trong docs → kiểm tra abstain
+        "SLA xử lý ticket P1 đã thay đổi như thế nào so với phiên bản trước?",
+        "Khi làm việc remote, tôi phải dùng VPN và được kết nối trên tối đa bao nhiêu thiết bị?",
+        "Đơn hàng mua trong chương trình Flash Sale và đã kích hoạt sản phẩm có được hoàn tiền không?",
+        "Nếu chọn nhận store credit thay vì hoàn tiền, tôi được bao nhiêu phần trăm?",
     ]
 
-    print("\n--- Sprint 2: Test Baseline (Dense) ---")
+    print("\n--- Sprint 2: Test Baseline---")
     for query in test_queries:
         print(f"\nQuery: {query}")
         try:
-            result = rag_answer(query, retrieval_mode="dense", verbose=True)
+            result = rag_answer(query, retrieval_mode="hybrid", verbose=True)
             print(f"Answer: {result['answer']}")
             print(f"Sources: {result['sources']}")
         except NotImplementedError:
