@@ -108,10 +108,10 @@ def supervisor_node(state: AgentState) -> AgentState:
 
     if any(kw in task for kw in policy_keywords):
         route = "policy_tool_worker"
-        route_reason = f"task contains policy/access keyword -> chọn MCP"
+        route_reason = "Task phát hiện keyword Policy/Access Control -> chọn MCP server để xử lý."
         needs_tool = True
     else:
-        route_reason = f"default route -> không chọn MCP"
+        route_reason = "Task không chứa keywords đặc thù -> không chọn MCP, sử dụng standard retrieval."
 
     if any(kw in task for kw in risk_keywords):
         risk_high = True

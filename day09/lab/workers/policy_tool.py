@@ -57,15 +57,17 @@ def _call_mcp_tool(tool_name: str, tool_input: dict) -> dict:
                 output_content = {}
                 if hasattr(result, "content") and result.content:
                     import json
-                    # FastMCP returns content as a list of tools.TextContent etc.
-                    # We try to parse the text if it's JSON
+                    # TextContent holds the response
                     text = result.content[0].text
                     try:
+                        # FastMCP often wraps dict results in JSON strings
                         output_content = json.loads(text)
                     except:
                         output_content = {"text": text}
                 
                 return {
+                    "mcp_tool_called": tool_name,
+                    "mcp_result": output_content,
                     "tool": tool_name,
                     "input": tool_input,
                     "output": output_content,
@@ -81,6 +83,8 @@ def _call_mcp_tool(tool_name: str, tool_input: dict) -> dict:
         return result
     except Exception as e:
         return {
+            "mcp_tool_called": tool_name,
+            "mcp_result": {"error": str(e)},
             "tool": tool_name,
             "input": tool_input,
             "output": None,
@@ -288,4 +292,4 @@ if __name__ == "__main__":
                 print(f"  exception: {ex['type']} — {ex['rule'][:60]}...")
         print(f"  MCP calls: {len(result.get('mcp_tools_used', []))}")
 
-    print("\n✅ policy_tool_worker test done.")
+    print("\npolicy_tool_worker test done.")
