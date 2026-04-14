@@ -8,68 +8,68 @@
     {
       "text": "Điều 5: Hình thức hoàn tiền\n\n- Hoàn tiền qua phương thức thanh toán gốc: áp dụng trong 100% trường hợp đủ điều kiện.\n- Hoàn tiền qua credit nội bộ (store credit): khách hàng có thể chọn nhận store credit thay thế với giá trị 110% so với số tiền hoàn.",
       "metadata": {
-        "chunk_index": 4,
         "next_chunk_id": "policy_refund_v4_c05",
-        "chunk_type": "Article",
-        "effective_date": "2026-02-01",
-        "source": "policy/refund-v4.pdf",
-        "char_count": 250,
-        "doc_id": "policy_refund_v4",
         "section_title": "Điều 5: Hình thức hoàn tiền",
-        "department": "CS",
+        "chunk_index": 4,
         "total_chunks": 6,
         "access": "internal",
         "access_level": "internal",
-        "language": "vi",
-        "chunk_id": "policy_refund_v4_c04",
+        "version": "4",
+        "effective_date": "2026-02-01",
+        "department": "CS",
+        "chunk_type": "Article",
+        "source": "policy/refund-v4.pdf",
+        "doc_id": "policy_refund_v4",
         "prev_chunk_id": "policy_refund_v4_c03",
-        "version": "4"
+        "char_count": 250,
+        "chunk_id": "policy_refund_v4_c04",
+        "language": "vi"
       },
-      "score": 0.6029311418533325
+      "score": 0.6029258370399475
     },
     {
       "text": "Điều 2: Điều kiện được hoàn tiền\n\nKhách hàng được quyền yêu cầu hoàn tiền khi đáp ứng đủ các điều kiện sau:\n- Sản phẩm bị lỗi do nhà sản xuất, không phải do người dùng.\n- Yêu cầu được gửi trong vòng 7 ngày làm việc kể từ thời điểm xác nhận đơn hàng.\n- Đơn hàng chưa được sử dụng hoặc chưa bị mở seal.",
       "metadata": {
         "language": "vi",
-        "next_chunk_id": "policy_refund_v4_c02",
-        "section_title": "Điều 2: Điều kiện được hoàn tiền",
-        "chunk_id": "policy_refund_v4_c01",
-        "chunk_index": 1,
-        "source": "policy/refund-v4.pdf",
-        "effective_date": "2026-02-01",
-        "total_chunks": 6,
-        "version": "4",
-        "doc_id": "policy_refund_v4",
-        "access_level": "internal",
         "chunk_type": "Article",
-        "department": "CS",
-        "char_count": 300,
+        "prev_chunk_id": "policy_refund_v4_c00",
         "access": "internal",
-        "prev_chunk_id": "policy_refund_v4_c00"
+        "next_chunk_id": "policy_refund_v4_c02",
+        "effective_date": "2026-02-01",
+        "doc_id": "policy_refund_v4",
+        "char_count": 300,
+        "section_title": "Điều 2: Điều kiện được hoàn tiền",
+        "total_chunks": 6,
+        "chunk_id": "policy_refund_v4_c01",
+        "access_level": "internal",
+        "department": "CS",
+        "source": "policy/refund-v4.pdf",
+        "chunk_index": 1,
+        "version": "4"
       },
-      "score": 0.3987168073654175
+      "score": 0.39881837368011475
     },
     {
       "text": "Điều 4: Quy trình xử lý yêu cầu hoàn tiền\n\nBước 1: Khách hàng gửi yêu cầu qua hệ thống ticket nội bộ với category \"Refund Request\".\nBước 2: CS Agent xem xét trong vòng 1 ngày làm việc và xác nhận điều kiện đủ điều kiện.\nBước 3: Nếu đủ điều kiện, chuyển yêu cầu sang Finance Team để xử lý hoàn tiền.\nBước 4: Finance Team xử lý trong 3-5 ngày làm việc và thông báo kết quả cho khách hàng.",
       "metadata": {
-        "source": "policy/refund-v4.pdf",
-        "next_chunk_id": "policy_refund_v4_c04",
-        "total_chunks": 6,
-        "effective_date": "2026-02-01",
-        "section_title": "Điều 4: Quy trình xử lý yêu cầu hoàn tiền",
-        "doc_id": "policy_refund_v4",
-        "version": "4",
-        "department": "CS",
         "chunk_index": 3,
-        "prev_chunk_id": "policy_refund_v4_c02",
-        "chunk_type": "Article",
+        "department": "CS",
         "language": "vi",
+        "section_title": "Điều 4: Quy trình xử lý yêu cầu hoàn tiền",
+        "access_level": "internal",
+        "doc_id": "policy_refund_v4",
+        "char_count": 386,
         "access": "internal",
         "chunk_id": "policy_refund_v4_c03",
-        "char_count": 386,
-        "access_level": "internal"
+        "chunk_type": "Article",
+        "version": "4",
+        "total_chunks": 6,
+        "next_chunk_id": "policy_refund_v4_c04",
+        "source": "policy/refund-v4.pdf",
+        "prev_chunk_id": "policy_refund_v4_c02",
+        "effective_date": "2026-02-01"
       },
-      "score": 0.3925015926361084
+      "score": 0.3925272226333618
     }
   ],
   "retrieved_sources": [
@@ -83,14 +83,14 @@
       "unknown"
     ],
     "policy_version_note": "",
-    "explanation": "Analyzed via rule-based policy check. TODO: upgrade to LLM-based analysis."
+    "explanation": "Analyze using rule-based checks based on task and retrieved chunks. Exceptions are identified if certain keywords are present in either the task or the context chunks."
   },
   "mcp_tools_used": [],
-  "final_answer": "Store credit khi hoàn tiền có giá trị 110% so với số tiền gốc. Khách hàng có thể chọn nhận store credit thay thế với giá trị này trong trường hợp đủ điều kiện hoàn tiền [1].",
+  "final_answer": "Store credit khi hoàn tiền có giá trị 110% so với số tiền gốc. Khách hàng có thể chọn nhận store credit thay thế trong trường hợp đủ điều kiện hoàn tiền [1].",
   "sources": [
     "unknown"
   ],
-  "confidence": 0.46,
+  "confidence": 0.52,
   "history": [
     "[supervisor] received task: Store credit khi hoàn tiền có giá trị bao nhiêu so với tiền gốc?",
     "[supervisor] route=policy_tool_worker needs_tool=False risk_high=False reason=policy keyword matched: hoàn tiền",
@@ -101,9 +101,9 @@
     "[policy_tool_worker] policy_applies=True, exceptions=0",
     "[policy_tool_worker] policy check complete",
     "[synthesis_worker] called",
-    "[synthesis_worker] answer generated, confidence=0.46, sources=['unknown']",
-    "[synthesis_worker] answer generated, confidence=0.46",
-    "[graph] completed in 2212ms"
+    "[synthesis_worker] answer generated, confidence=0.52, sources=['unknown']",
+    "[synthesis_worker] answer generated, confidence=0.52",
+    "[graph] completed in 3517ms"
   ],
   "workers_called": [
     "retrieval_worker",
@@ -111,8 +111,8 @@
     "synthesis_worker"
   ],
   "supervisor_route": "policy_tool_worker",
-  "latency_ms": 2212,
-  "run_id": "run_20260414_154438",
+  "latency_ms": 3517,
+  "run_id": "run_20260414_164555",
   "worker_io_logs": [
     {
       "worker": "retrieval_worker",
@@ -150,11 +150,11 @@
         "has_policy": true
       },
       "output": {
-        "answer_length": 173,
+        "answer_length": 157,
         "sources": [
           "unknown"
         ],
-        "confidence": 0.46
+        "confidence": 0.52
       },
       "error": null
     }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T15:45:22.909764",
+  "generated_at": "2026-04-14T16:47:15.322526",
   "day08_single_agent": {
     "total_questions": 15,
     "avg_llm_score": 3.85,
@@ -13,8 +13,8 @@
       "policy_tool_worker": "10/15 (66%)",
       "retrieval_worker": "5/15 (33%)"
     },
-    "avg_confidence": 0.54,
-    "avg_latency_ms": 2640,
+    "avg_confidence": 0.617,
+    "avg_latency_ms": 4609,
     "mcp_usage_rate": "5/15 (33%)",
     "hitl_rate": "1/15 (6%)",
     "top_sources": [
@@ -42,7 +42,7 @@
   },
   "analysis": {
     "routing_visibility": "Day 09 có route_reason cho từng câu → hiểu rõ tại sao AI chọn luồng đó.",
-    "latency_delta": "Tăng 1140ms (+76.0%) - Đánh đổi độ phức tạp để lấy sự chính xác.",
+    "latency_delta": "Tăng 3109ms (+207.3%) - Đánh đổi độ phức tạp để lấy sự chính xác.",
     "accuracy_delta": "Sẽ được xác định sau khi chạy --grading và so sánh manual.",
     "debuggability": "Tốt hơn: Có thể isolate lỗi tại riêng Retrieval Worker hoặc Policy Worker.",
     "mcp_benefit": "Đột phá: Có thể gọi Tool ngoài (Jira, Ticket) thông qua MCP mà không làm rối logic RAG."

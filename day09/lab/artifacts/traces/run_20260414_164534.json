@@ -8,70 +8,70 @@
     {
       "text": "Q: Tài khoản bị khóa sau bao nhiêu lần đăng nhập sai?\nA: Tài khoản bị khóa sau 5 lần đăng nhập sai liên tiếp. Để mở khóa, liên hệ IT Helpdesk hoặc tự reset qua portal SSO.",
       "metadata": {
-        "doc_id": "it_helpdesk_faq",
-        "access_level": "internal",
-        "department": "IT",
-        "access": "internal",
+        "effective_date": "2026-01-20",
+        "chunk_index": 1,
+        "chunk_id": "it_helpdesk_faq_c01",
         "char_count": 171,
         "chunk_type": "QA-Pair",
-        "chunk_id": "it_helpdesk_faq_c01",
-        "language": "vi",
-        "next_chunk_id": "it_helpdesk_faq_c02",
+        "doc_id": "it_helpdesk_faq",
+        "access": "internal",
+        "section_title": "Tài khoản và mật khẩu",
         "version": "v1.0",
-        "prev_chunk_id": "it_helpdesk_faq_c00",
+        "access_level": "internal",
+        "department": "IT",
         "total_chunks": 12,
         "source": "support/helpdesk-faq.md",
-        "section_title": "Tài khoản và mật khẩu",
+        "language": "vi",
+        "next_chunk_id": "it_helpdesk_faq_c02",
         "has_answer": true,
-        "chunk_index": 1,
-        "effective_date": "2026-01-20"
+        "prev_chunk_id": "it_helpdesk_faq_c00"
       },
-      "score": 0.8299745917320251
+      "score": 0.8300821185112
     },
     {
       "text": "Q: Mật khẩu cần thay đổi định kỳ không?\nA: Có. Mật khẩu phải được thay đổi mỗi 90 ngày. Hệ thống sẽ nhắc nhở 7 ngày trước khi hết hạn.",
       "metadata": {
-        "version": "v1.0",
-        "doc_id": "it_helpdesk_faq",
-        "total_chunks": 12,
-        "effective_date": "2026-01-20",
-        "chunk_type": "QA-Pair",
-        "department": "IT",
-        "source": "support/helpdesk-faq.md",
-        "has_answer": true,
-        "chunk_id": "it_helpdesk_faq_c02",
-        "section_title": "VPN và kết nối từ xa",
-        "prev_chunk_id": "it_helpdesk_faq_c01",
-        "next_chunk_id": "it_helpdesk_faq_c03",
-        "char_count": 134,
-        "access": "internal",
         "language": "vi",
+        "chunk_id": "it_helpdesk_faq_c02",
+        "chunk_index": 2,
+        "doc_id": "it_helpdesk_faq",
+        "next_chunk_id": "it_helpdesk_faq_c03",
+        "source": "support/helpdesk-faq.md",
+        "prev_chunk_id": "it_helpdesk_faq_c01",
+        "char_count": 134,
+        "version": "v1.0",
         "access_level": "internal",
-        "chunk_index": 2
+        "access": "internal",
+        "section_title": "VPN và kết nối từ xa",
+        "total_chunks": 12,
+        "has_answer": true,
+        "chunk_type": "QA-Pair",
+        "effective_date": "2026-01-20",
+        "department": "IT"
       },
-      "score": 0.5141353607177734
+      "score": 0.514153778553009
     },
     {
       "text": "Q: Tôi quên mật khẩu, phải làm gì?\nA: Truy cập https://sso.company.internal/reset hoặc liên hệ Helpdesk qua ext. 9000. Mật khẩu mới sẽ được gửi qua email công ty trong vòng 5 phút.",
       "metadata": {
         "language": "vi",
-        "department": "IT",
-        "source": "support/helpdesk-faq.md",
-        "chunk_index": 0,
-        "chunk_id": "it_helpdesk_faq_c00",
-        "effective_date": "2026-01-20",
-        "doc_id": "it_helpdesk_faq",
-        "chunk_type": "QA-Pair",
-        "access": "internal",
-        "total_chunks": 12,
-        "char_count": 180,
-        "section_title": "Tài khoản và mật khẩu",
         "version": "v1.0",
-        "access_level": "internal",
+        "chunk_type": "QA-Pair",
+        "doc_id": "it_helpdesk_faq",
+        "has_answer": true,
+        "access": "internal",
+        "source": "support/helpdesk-faq.md",
+        "chunk_id": "it_helpdesk_faq_c00",
+        "chunk_index": 0,
         "next_chunk_id": "it_helpdesk_faq_c01",
-        "has_answer": true
+        "total_chunks": 12,
+        "section_title": "Tài khoản và mật khẩu",
+        "effective_date": "2026-01-20",
+        "access_level": "internal",
+        "department": "IT",
+        "char_count": 180
       },
-      "score": 0.4631146192550659
+      "score": 0.4631158709526062
     }
   ],
   "retrieved_sources": [
@@ -83,7 +83,7 @@
   "sources": [
     "unknown"
   ],
-  "confidence": 0.6,
+  "confidence": 0.69,
   "history": [
     "[supervisor] received task: Tài khoản bị khóa sau bao nhiêu lần đăng nhập sai?",
     "[supervisor] route=retrieval_worker needs_tool=False risk_high=False reason=no specific keyword matched → default retrieval",
@@ -91,17 +91,17 @@
     "[retrieval_worker] retrieved 3 chunks from ['support/helpdesk-faq.md']",
     "[retrieval_worker] retrieved 3 chunks",
     "[synthesis_worker] called",
-    "[synthesis_worker] answer generated, confidence=0.6, sources=['unknown']",
-    "[synthesis_worker] answer generated, confidence=0.6",
-    "[graph] completed in 1908ms"
+    "[synthesis_worker] answer generated, confidence=0.69, sources=['unknown']",
+    "[synthesis_worker] answer generated, confidence=0.69",
+    "[graph] completed in 4090ms"
   ],
   "workers_called": [
     "retrieval_worker",
     "synthesis_worker"
   ],
   "supervisor_route": "retrieval_worker",
-  "latency_ms": 1908,
-  "run_id": "run_20260414_154425",
+  "latency_ms": 4090,
+  "run_id": "run_20260414_164534",
   "worker_io_logs": [
     {
       "worker": "retrieval_worker",
@@ -129,7 +129,7 @@
         "sources": [
           "unknown"
         ],
-        "confidence": 0.6
+        "confidence": 0.69
       },
       "error": null
     }

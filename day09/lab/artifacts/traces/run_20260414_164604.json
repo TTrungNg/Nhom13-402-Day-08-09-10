@@ -8,65 +8,65 @@
     {
       "text": "Điều 2: Điều kiện được hoàn tiền\n\nKhách hàng được quyền yêu cầu hoàn tiền khi đáp ứng đủ các điều kiện sau:\n- Sản phẩm bị lỗi do nhà sản xuất, không phải do người dùng.\n- Yêu cầu được gửi trong vòng 7 ngày làm việc kể từ thời điểm xác nhận đơn hàng.\n- Đơn hàng chưa được sử dụng hoặc chưa bị mở seal.",
       "metadata": {
-        "version": "4",
         "access": "internal",
-        "chunk_index": 1,
-        "chunk_id": "policy_refund_v4_c01",
-        "total_chunks": 6,
-        "char_count": 300,
-        "effective_date": "2026-02-01",
-        "chunk_type": "Article",
-        "prev_chunk_id": "policy_refund_v4_c00",
-        "language": "vi",
+        "doc_id": "policy_refund_v4",
         "department": "CS",
-        "source": "policy/refund-v4.pdf",
-        "next_chunk_id": "policy_refund_v4_c02",
         "access_level": "internal",
-        "section_title": "Điều 2: Điều kiện được hoàn tiền",
-        "doc_id": "policy_refund_v4"
+        "next_chunk_id": "policy_refund_v4_c02",
+        "effective_date": "2026-02-01",
+        "chunk_id": "policy_refund_v4_c01",
+        "version": "4",
+        "source": "policy/refund-v4.pdf",
+        "char_count": 300,
+        "language": "vi",
+        "chunk_index": 1,
+        "prev_chunk_id": "policy_refund_v4_c00",
+        "chunk_type": "Article",
+        "total_chunks": 6,
+        "section_title": "Điều 2: Điều kiện được hoàn tiền"
       },
-      "score": 0.6507033705711365
+      "score": 0.6506901979446411
     },
     {
       "text": "Điều 3: Điều kiện áp dụng và ngoại lệ\n\nHoàn tiền — Điều kiện áp dụng:\nYêu cầu được gửi trong vòng 7 ngày kể từ thời điểm xác nhận đơn hàng.\n\nNgoại lệ không được hoàn tiền:\n- Sản phẩm thuộc danh mục hàng kỹ thuật số (license key, subscription).\n- Đơn hàng đã áp dụng mã giảm giá đặc biệt theo chương trình khuyến mãi Flash Sale.\n- Sản phẩm đã được kích hoạt hoặc đăng ký tài khoản.",
       "metadata": {
-        "next_chunk_id": "policy_refund_v4_c03",
-        "char_count": 380,
-        "doc_id": "policy_refund_v4",
-        "access": "internal",
-        "total_chunks": 6,
-        "version": "4",
-        "language": "vi",
-        "chunk_type": "Article",
-        "chunk_index": 2,
-        "chunk_id": "policy_refund_v4_c02",
-        "effective_date": "2026-02-01",
         "prev_chunk_id": "policy_refund_v4_c01",
         "section_title": "Điều 3: Điều kiện áp dụng và ngoại lệ",
-        "source": "policy/refund-v4.pdf",
         "access_level": "internal",
-        "department": "CS"
+        "source": "policy/refund-v4.pdf",
+        "access": "internal",
+        "next_chunk_id": "policy_refund_v4_c03",
+        "version": "4",
+        "total_chunks": 6,
+        "language": "vi",
+        "chunk_type": "Article",
+        "doc_id": "policy_refund_v4",
+        "chunk_id": "policy_refund_v4_c02",
+        "effective_date": "2026-02-01",
+        "department": "CS",
+        "chunk_index": 2,
+        "char_count": 380
       },
-      "score": 0.5742684602737427
+      "score": 0.5743421316146851
     },
     {
       "text": "Điều 1: Phạm vi áp dụng\n\nChính sách này áp dụng cho tất cả các đơn hàng được đặt trên hệ thống nội bộ kể từ ngày 01/02/2026.\nCác đơn hàng đặt trước ngày có hiệu lực sẽ áp dụng theo chính sách hoàn tiền phiên bản 3.",
       "metadata": {
-        "access": "internal",
+        "section_title": "Điều 1: Phạm vi áp dụng",
+        "source": "policy/refund-v4.pdf",
         "total_chunks": 6,
         "chunk_index": 0,
-        "char_count": 214,
         "department": "CS",
-        "access_level": "internal",
-        "chunk_id": "policy_refund_v4_c00",
+        "access": "internal",
         "chunk_type": "Article",
-        "effective_date": "2026-02-01",
-        "section_title": "Điều 1: Phạm vi áp dụng",
+        "char_count": 214,
         "version": "4",
+        "effective_date": "2026-02-01",
+        "next_chunk_id": "policy_refund_v4_c01",
+        "access_level": "internal",
         "language": "vi",
-        "source": "policy/refund-v4.pdf",
-        "doc_id": "policy_refund_v4",
-        "next_chunk_id": "policy_refund_v4_c01"
+        "chunk_id": "policy_refund_v4_c00",
+        "doc_id": "policy_refund_v4"
       },
       "score": 0.5142019987106323
     }
@@ -76,7 +76,7 @@
   ],
   "policy_result": {
     "policy_applies": false,
-    "policy_name": "refund_policy_v4",
+    "policy_name": "refund_policy_v3",
     "exceptions_found": [
       {
         "type": "flash_sale_exception",
@@ -88,14 +88,14 @@
       "unknown"
     ],
     "policy_version_note": "Đơn hàng đặt trước 01/02/2026 áp dụng chính sách v3 (không có trong tài liệu hiện tại).",
-    "explanation": "Analyzed via rule-based policy check. TODO: upgrade to LLM-based analysis."
+    "explanation": "Analyze using rule-based checks based on task and retrieved chunks. Exceptions are identified if certain keywords are present in either the task or the context chunks."
   },
   "mcp_tools_used": [],
-  "final_answer": "Khách hàng không được hoàn tiền. Mặc dù sản phẩm bị lỗi do nhà sản xuất và chưa kích hoạt, yêu cầu hoàn tiền được gửi sau 7 ngày làm việc kể từ thời điểm xác nhận đơn hàng (31/01/2026 đến 07/02/2026 là 7 ngày). Theo quy định, yêu cầu hoàn tiền phải được gửi trong vòng 7 ngày làm việc kể từ thời điểm xác nhận đơn hàng [1][2]. \n\nNgoài ra, chính sách hoàn tiền áp dụng cho các đơn hàng đặt từ ngày 01/02/2026 trở đi, do đó đơn hàng này không thuộc phạm vi áp dụng [3].",
+  "final_answer": "Khách hàng không được hoàn tiền trong trường hợp này. Mặc dù sản phẩm bị lỗi do nhà sản xuất và chưa kích hoạt, yêu cầu hoàn tiền được gửi sau 7 ngày làm việc kể từ thời điểm xác nhận đơn hàng (31/01/2026 đến 07/02/2026 là 7 ngày). Theo quy định, yêu cầu hoàn tiền phải được gửi trong vòng 7 ngày làm việc kể từ thời điểm xác nhận đơn hàng [1][2]. \n\nDo đó, yêu cầu hoàn tiền không hợp lệ.",
   "sources": [
     "unknown"
   ],
-  "confidence": 0.53,
+  "confidence": 0.62,
   "history": [
     "[supervisor] received task: Khách hàng đặt đơn ngày 31/01/2026 và yêu cầu hoàn tiền ngày 07/02/2026. Sản phẩ",
     "[supervisor] route=policy_tool_worker needs_tool=False risk_high=False reason=policy keyword matched: hoàn tiền, flash sale, kích hoạt",
@@ -106,9 +106,9 @@
     "[policy_tool_worker] policy_applies=False, exceptions=1",
     "[policy_tool_worker] policy check complete",
     "[synthesis_worker] called",
-    "[synthesis_worker] answer generated, confidence=0.53, sources=['unknown']",
-    "[synthesis_worker] answer generated, confidence=0.53",
-    "[graph] completed in 2765ms"
+    "[synthesis_worker] answer generated, confidence=0.62, sources=['unknown']",
+    "[synthesis_worker] answer generated, confidence=0.62",
+    "[graph] completed in 5372ms"
   ],
   "workers_called": [
     "retrieval_worker",
@@ -116,8 +116,8 @@
     "synthesis_worker"
   ],
   "supervisor_route": "policy_tool_worker",
-  "latency_ms": 2765,
-  "run_id": "run_20260414_154442",
+  "latency_ms": 5372,
+  "run_id": "run_20260414_164604",
   "worker_io_logs": [
     {
       "worker": "retrieval_worker",
@@ -155,11 +155,11 @@
         "has_policy": true
       },
       "output": {
-        "answer_length": 467,
+        "answer_length": 388,
         "sources": [
           "unknown"
         ],
-        "confidence": 0.53
+        "confidence": 0.62
       },
       "error": null
     }

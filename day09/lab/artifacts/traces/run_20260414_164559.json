@@ -9,67 +9,67 @@
       "text": "P1 — CRITICAL (Khẩn cấp):\nĐịnh nghĩa: Sự cố ảnh hưởng toàn bộ hệ thống production, không có workaround.\nVí dụ: Database sập, API gateway down, toàn bộ người dùng không thể đăng nhập.\n\nTicket P1:\n- Phản hồi ban đầu (first response): 15 phút kể từ khi ticket được tạo.\n- Xử lý và khắc phục (resolution): 4 giờ.\n- Escalation: Tự động escalate lên Senior Engineer nếu không có phản hồi trong 10 phút.\n- Thông báo stakeholder: Ngay khi nhận ticket, update mỗi 30 phút cho đến khi resolve.",
       "metadata": {
         "doc_id": "sla_p1_2026",
-        "department": "IT",
         "source": "support/sla-p1-2026.pdf",
-        "chunk_index": 0,
-        "version": "v1.0",
-        "effective_date": "2026-01-15",
-        "next_chunk_id": "sla_p1_2026_c01",
-        "char_count": 483,
-        "chunk_type": "Priority-Group",
-        "total_chunks": 6,
-        "access": "internal",
-        "chunk_id": "sla_p1_2026_c00",
-        "section_title": "P1 Info",
         "access_level": "internal",
+        "total_chunks": 6,
+        "section_title": "P1 Info",
+        "effective_date": "2026-01-15",
+        "char_count": 483,
+        "access": "internal",
+        "version": "v1.0",
+        "chunk_id": "sla_p1_2026_c00",
+        "chunk_index": 0,
+        "department": "IT",
+        "chunk_type": "Priority-Group",
+        "next_chunk_id": "sla_p1_2026_c01",
         "language": "vi"
       },
-      "score": 0.630618155002594
+      "score": 0.6306120157241821
     },
     {
       "text": "Context SLA P1:\n- Escalation: Tự động escalate lên Senior Engineer nếu không có phản hồi trong 10 phút.\n- Thông báo stakeholder: Ngay khi nhận ticket, update mỗi 30 phút cho đến khi resolve.\n\nQuy trình:\nBước 1: Tiếp nhận\nOn-call engineer nhận alert hoặc ticket, xác nhận severity trong 5 phút.\n\nBước 2: Thông báo\nGửi thông báo tới Slack #incident-p1 và email incident@company.internal ngay lập tức.\n\nBước 3: Triage và phân công\nLead Engineer phân công engineer xử lý trong 10 phút.\n\nBước 4: Xử lý\nEngineer cập nhật tiến độ lên ticket mỗi 30 phút. Nếu cần hỗ trợ thêm, escalate ngay.\n\nBước 5: Resolution\nSau khi khắc phục, viết incident report trong vòng 24 giờ.",
       "metadata": {
-        "chunk_type": "Process",
-        "access": "internal",
-        "doc_id": "sla_p1_2026",
-        "source": "support/sla-p1-2026.pdf",
-        "version": "v1.0",
-        "chunk_index": 3,
-        "overlap_with": "P1 Info",
-        "access_level": "internal",
-        "language": "vi",
-        "section_title": "Quy trình P1",
-        "department": "IT",
         "next_chunk_id": "sla_p1_2026_c04",
-        "total_chunks": 6,
-        "effective_date": "2026-01-15",
-        "prev_chunk_id": "sla_p1_2026_c02",
+        "department": "IT",
         "chunk_id": "sla_p1_2026_c03",
-        "char_count": 661
+        "char_count": 661,
+        "chunk_index": 3,
+        "total_chunks": 6,
+        "version": "v1.0",
+        "doc_id": "sla_p1_2026",
+        "access_level": "internal",
+        "source": "support/sla-p1-2026.pdf",
+        "overlap_with": "P1 Info",
+        "chunk_type": "Process",
+        "prev_chunk_id": "sla_p1_2026_c02",
+        "section_title": "Quy trình P1",
+        "access": "internal",
+        "effective_date": "2026-01-15",
+        "language": "vi"
       },
-      "score": 0.6191848516464233
+      "score": 0.618984580039978
     },
     {
       "text": "P2 — HIGH (Nghiêm trọng):\nĐịnh nghĩa: Sự cố ảnh hưởng một phần hệ thống, có workaround tạm thời.\nVí dụ: Một số tính năng không hoạt động, ảnh hưởng một nhóm người dùng.\n\nTicket P2:\n- Phản hồi ban đầu: 2 giờ.\n- Xử lý và khắc phục: 1 ngày làm việc.\n- Escalation: Tự động escalate sau 90 phút không có phản hồi.",
       "metadata": {
-        "chunk_id": "sla_p1_2026_c01",
-        "version": "v1.0",
+        "source": "support/sla-p1-2026.pdf",
+        "chunk_type": "Priority-Group",
         "doc_id": "sla_p1_2026",
-        "total_chunks": 6,
-        "prev_chunk_id": "sla_p1_2026_c00",
-        "char_count": 308,
+        "next_chunk_id": "sla_p1_2026_c02",
         "access": "internal",
-        "department": "IT",
+        "effective_date": "2026-01-15",
+        "version": "v1.0",
+        "char_count": 308,
+        "chunk_id": "sla_p1_2026_c01",
         "section_title": "P2 Info",
         "language": "vi",
+        "total_chunks": 6,
+        "department": "IT",
+        "prev_chunk_id": "sla_p1_2026_c00",
         "access_level": "internal",
-        "chunk_type": "Priority-Group",
-        "chunk_index": 1,
-        "next_chunk_id": "sla_p1_2026_c02",
-        "effective_date": "2026-01-15",
-        "source": "support/sla-p1-2026.pdf"
+        "chunk_index": 1
       },
-      "score": 0.5637608766555786
+      "score": 0.5634932518005371
     }
   ],
   "retrieved_sources": [
@@ -83,7 +83,7 @@
       "unknown"
     ],
     "policy_version_note": "",
-    "explanation": "Analyzed via rule-based policy check. TODO: upgrade to LLM-based analysis."
+    "explanation": "Analyze using rule-based checks based on task and retrieved chunks. Exceptions are identified if certain keywords are present in either the task or the context chunks."
   },
   "mcp_tools_used": [
     {
@@ -108,14 +108,14 @@
         ]
       },
       "error": null,
-      "timestamp": "2026-04-14T15:44:40.688951"
+      "timestamp": "2026-04-14T16:45:59.788327"
     }
   ],
-  "final_answer": "1. **Ai sẽ nhận thông báo đầu tiên và qua kênh nào?**\n   - On-call engineer sẽ nhận thông báo đầu tiên qua Slack #incident-p1 và email incident@company.internal ngay lập tức khi ticket được tạo [2].\n\n2. **Escalation xảy ra lúc mấy giờ?**\n   - Escalation sẽ xảy ra sau 10 phút nếu không có phản hồi. Nếu ticket được tạo lúc 22:47, escalation sẽ xảy ra lúc 22:57 [1].",
+  "final_answer": "1. Người nhận thông báo đầu tiên là On-call engineer qua kênh Slack #incident-p1 và email incident@company.internal ngay lập tức sau khi ticket được tạo [2].\n   \n2. Escalation sẽ xảy ra sau 10 phút nếu không có phản hồi từ On-call engineer, tức là vào lúc 22:57 [1][2].",
   "sources": [
     "unknown"
   ],
-  "confidence": 0.6,
+  "confidence": 0.66,
   "history": [
     "[supervisor] received task: Ticket P1 được tạo lúc 22:47. Ai sẽ nhận thông báo đầu tiên và qua kênh nào? Esc",
     "[supervisor] route=policy_tool_worker needs_tool=True risk_high=False reason=MCP tool keywords detected: ticket",
@@ -127,9 +127,9 @@
     "[policy_tool_worker] policy_applies=True, exceptions=0",
     "[policy_tool_worker] policy check complete",
     "[synthesis_worker] called",
-    "[synthesis_worker] answer generated, confidence=0.6, sources=['unknown']",
-    "[synthesis_worker] answer generated, confidence=0.6",
-    "[graph] completed in 2702ms"
+    "[synthesis_worker] answer generated, confidence=0.66, sources=['unknown']",
+    "[synthesis_worker] answer generated, confidence=0.66",
+    "[graph] completed in 5643ms"
   ],
   "workers_called": [
     "retrieval_worker",
@@ -137,8 +137,8 @@
     "synthesis_worker"
   ],
   "supervisor_route": "policy_tool_worker",
-  "latency_ms": 2702,
-  "run_id": "run_20260414_154440",
+  "latency_ms": 5643,
+  "run_id": "run_20260414_164559",
   "worker_io_logs": [
     {
       "worker": "retrieval_worker",
@@ -176,11 +176,11 @@
         "has_policy": true
       },
       "output": {
-        "answer_length": 365,
+        "answer_length": 269,
         "sources": [
           "unknown"
         ],
-        "confidence": 0.6
+        "confidence": 0.66
       },
       "error": null
     }
