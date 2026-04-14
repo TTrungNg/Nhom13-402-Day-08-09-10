@@ -26,8 +26,8 @@ load_dotenv()
 # CẤU HÌNH
 # =============================================================================
 
-DOCS_DIR = Path(r"D:\day-8-9-10\Nhom13-402-Day-08-09-10\day09\lab\data\docs")
-CHROMA_DB_DIR = Path(r"D:\day-8-9-10\Nhom13-402-Day-08-09-10\day09\lab\chroma_db")
+DOCS_DIR = Path(__file__).parent.parent / "data" / "docs"
+CHROMA_DB_DIR = Path(__file__).parent.parent / "chroma_db"
 
 # TODO Sprint 1: Điều chỉnh chunk size và overlap theo quyết định của nhóm
 # Gợi ý từ slide: chunk 300-500 tokens, overlap 50-80 tokens
