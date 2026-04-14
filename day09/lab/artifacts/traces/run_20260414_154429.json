@@ -1,0 +1,188 @@
+{
+  "task": "Ticket P1 không được phản hồi sau 10 phút. Hệ thống tự động làm gì?",
+  "route_reason": "MCP tool keywords detected: ticket",
+  "risk_high": false,
+  "needs_tool": true,
+  "hitl_triggered": false,
+  "retrieved_chunks": [
+    {
+      "text": "P1 — CRITICAL (Khẩn cấp):\nĐịnh nghĩa: Sự cố ảnh hưởng toàn bộ hệ thống production, không có workaround.\nVí dụ: Database sập, API gateway down, toàn bộ người dùng không thể đăng nhập.\n\nTicket P1:\n- Phản hồi ban đầu (first response): 15 phút kể từ khi ticket được tạo.\n- Xử lý và khắc phục (resolution): 4 giờ.\n- Escalation: Tự động escalate lên Senior Engineer nếu không có phản hồi trong 10 phút.\n- Thông báo stakeholder: Ngay khi nhận ticket, update mỗi 30 phút cho đến khi resolve.",
+      "metadata": {
+        "chunk_id": "sla_p1_2026_c00",
+        "char_count": 483,
+        "total_chunks": 6,
+        "language": "vi",
+        "department": "IT",
+        "version": "v1.0",
+        "access_level": "internal",
+        "chunk_index": 0,
+        "source": "support/sla-p1-2026.pdf",
+        "chunk_type": "Priority-Group",
+        "access": "internal",
+        "doc_id": "sla_p1_2026",
+        "effective_date": "2026-01-15",
+        "section_title": "P1 Info",
+        "next_chunk_id": "sla_p1_2026_c01"
+      },
+      "score": 0.6428602337837219
+    },
+    {
+      "text": "P2 — HIGH (Nghiêm trọng):\nĐịnh nghĩa: Sự cố ảnh hưởng một phần hệ thống, có workaround tạm thời.\nVí dụ: Một số tính năng không hoạt động, ảnh hưởng một nhóm người dùng.\n\nTicket P2:\n- Phản hồi ban đầu: 2 giờ.\n- Xử lý và khắc phục: 1 ngày làm việc.\n- Escalation: Tự động escalate sau 90 phút không có phản hồi.",
+      "metadata": {
+        "source": "support/sla-p1-2026.pdf",
+        "chunk_type": "Priority-Group",
+        "section_title": "P2 Info",
+        "prev_chunk_id": "sla_p1_2026_c00",
+        "total_chunks": 6,
+        "chunk_id": "sla_p1_2026_c01",
+        "next_chunk_id": "sla_p1_2026_c02",
+        "access_level": "internal",
+        "version": "v1.0",
+        "language": "vi",
+        "chunk_index": 1,
+        "effective_date": "2026-01-15",
+        "char_count": 308,
+        "doc_id": "sla_p1_2026",
+        "department": "IT",
+        "access": "internal"
+      },
+      "score": 0.6339327096939087
+    },
+    {
+      "text": "P3 — MEDIUM (Trung bình):\nĐịnh nghĩa: Lỗi ảnh hưởng không đáng kể, người dùng vẫn làm việc được.\nP4 — LOW (Thấp):\nĐịnh nghĩa: Yêu cầu cải tiến, gợi ý, hoặc lỗi giao diện nhỏ.\n\nTicket P3:\n- Phản hồi ban đầu: 1 ngày làm việc.\n- Xử lý và khắc phục: 5 ngày làm việc.\nTicket P4:\n- Phản hồi ban đầu: 3 ngày làm việc.\n- Xử lý và khắc phục: Theo sprint cycle (thông thường 2-4 tuần).",
+      "metadata": {
+        "chunk_type": "Priority-Group",
+        "doc_id": "sla_p1_2026",
+        "access_level": "internal",
+        "source": "support/sla-p1-2026.pdf",
+        "next_chunk_id": "sla_p1_2026_c03",
+        "chunk_id": "sla_p1_2026_c02",
+        "version": "v1.0",
+        "char_count": 375,
+        "effective_date": "2026-01-15",
+        "access": "internal",
+        "language": "vi",
+        "department": "IT",
+        "total_chunks": 6,
+        "prev_chunk_id": "sla_p1_2026_c01",
+        "chunk_index": 2,
+        "section_title": "P3/P4 Info"
+      },
+      "score": 0.5343457460403442
+    }
+  ],
+  "retrieved_sources": [
+    "support/sla-p1-2026.pdf"
+  ],
+  "policy_result": {
+    "policy_applies": true,
+    "policy_name": "refund_policy_v4",
+    "exceptions_found": [],
+    "source": [
+      "unknown"
+    ],
+    "policy_version_note": "",
+    "explanation": "Analyzed via rule-based policy check. TODO: upgrade to LLM-based analysis."
+  },
+  "mcp_tools_used": [
+    {
+      "tool": "get_ticket_info",
+      "input": {
+        "ticket_id": "P1-LATEST"
+      },
+      "output": {
+        "ticket_id": "IT-9847",
+        "priority": "P1",
+        "title": "API Gateway down — toàn bộ người dùng không đăng nhập được",
+        "status": "in_progress",
+        "assignee": "nguyen.van.a@company.internal",
+        "created_at": "2026-04-13T22:47:00",
+        "sla_deadline": "2026-04-14T02:47:00",
+        "escalated": true,
+        "escalated_to": "senior_engineer_team",
+        "notifications_sent": [
+          "slack:#incident-p1",
+          "email:incident@company.internal",
+          "pagerduty:oncall"
+        ]
+      },
+      "error": null,
+      "timestamp": "2026-04-14T15:44:29.969528"
+    }
+  ],
+  "final_answer": "Nếu ticket P1 không được phản hồi sau 10 phút, hệ thống sẽ tự động escalate lên Senior Engineer. [1]",
+  "sources": [
+    "unknown"
+  ],
+  "confidence": 0.6,
+  "history": [
+    "[supervisor] received task: Ticket P1 không được phản hồi sau 10 phút. Hệ thống tự động làm gì?",
+    "[supervisor] route=policy_tool_worker needs_tool=True risk_high=False reason=MCP tool keywords detected: ticket",
+    "[retrieval_worker] called",
+    "[retrieval_worker] retrieved 3 chunks from ['support/sla-p1-2026.pdf']",
+    "[retrieval_worker] retrieved 3 chunks",
+    "[policy_tool_worker] called",
+    "[policy_tool_worker] called MCP get_ticket_info",
+    "[policy_tool_worker] policy_applies=True, exceptions=0",
+    "[policy_tool_worker] policy check complete",
+    "[synthesis_worker] called",
+    "[synthesis_worker] answer generated, confidence=0.6, sources=['unknown']",
+    "[synthesis_worker] answer generated, confidence=0.6",
+    "[graph] completed in 1621ms"
+  ],
+  "workers_called": [
+    "retrieval_worker",
+    "policy_tool_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "policy_tool_worker",
+  "latency_ms": 1621,
+  "run_id": "run_20260414_154429",
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "Ticket P1 không được phản hồi sau 10 phút. Hệ thống tự động làm gì?",
+        "top_k": 3
+      },
+      "output": {
+        "chunks_count": 3,
+        "sources": [
+          "support/sla-p1-2026.pdf"
+        ]
+      },
+      "error": null
+    },
+    {
+      "worker": "policy_tool_worker",
+      "input": {
+        "task": "Ticket P1 không được phản hồi sau 10 phút. Hệ thống tự động làm gì?",
+        "chunks_count": 3,
+        "needs_tool": true
+      },
+      "output": {
+        "policy_applies": true,
+        "exceptions_count": 0,
+        "mcp_calls": 1
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "Ticket P1 không được phản hồi sau 10 phút. Hệ thống tự động làm gì?",
+        "chunks_count": 3,
+        "has_policy": true
+      },
+      "output": {
+        "answer_length": 100,
+        "sources": [
+          "unknown"
+        ],
+        "confidence": 0.6
+      },
+      "error": null
+    }
+  ],
+  "question_id": "q06"
+}

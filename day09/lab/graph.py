@@ -136,6 +136,12 @@ def supervisor_node(state: AgentState) -> AgentState:
     # ── Kiểm tra mã lỗi không rõ (ERR-xxx) ──────────────────────────────
     has_err_code = bool(_ERR_CODE_PATTERN.search(task_lower))
 
+    # ── Tool detection (Global) ──────────────────────────────────────────
+    if any(kw in task_lower for kw in _TOOL_KEYWORDS):
+        tool_triggered = [kw for kw in _TOOL_KEYWORDS if kw in task_lower]
+        needs_tool = True
+        route_reasons.append(f"MCP tool keywords detected: {', '.join(tool_triggered)}")
+
     # ── Risk assessment ──────────────────────────────────────────────────
     triggered_risk = [kw for kw in _RISK_KEYWORDS if kw in task_lower]
     if triggered_risk or has_err_code:
@@ -151,15 +157,18 @@ def supervisor_node(state: AgentState) -> AgentState:
         route_reasons.append("unknown error code + risk_high → human_review")
 
     # ── Policy/Tool worker ───────────────────────────────────────────────
-    elif any(kw in task_lower for kw in _POLICY_KEYWORDS):
-        triggered = [kw for kw in _POLICY_KEYWORDS if kw in task_lower]
+    # MỚI: Route sang policy_tool_worker nếu cần tool hoặc khớp policy keyword
+    elif needs_tool or any(kw in task_lower for kw in _POLICY_KEYWORDS):
         route = "policy_tool_worker"
-        route_reasons.append(f"policy keyword matched: {', '.join(triggered)}")
-        # Kiểm tra có cần gọi MCP tool không
-        if any(kw in task_lower for kw in _TOOL_KEYWORDS):
-            tool_triggered = [kw for kw in _TOOL_KEYWORDS if kw in task_lower]
-            needs_tool = True
-            route_reasons.append(f"MCP tool needed: {', '.join(tool_triggered)}")
+        if any(kw in task_lower for kw in _POLICY_KEYWORDS):
+            triggered = [kw for kw in _POLICY_KEYWORDS if kw in task_lower]
+            route_reasons.append(f"policy keyword matched: {', '.join(triggered)}")
+        
+        # PHẦN CŨ ĐÃ COMMENT (theo request):
+        # if any(kw in task_lower for kw in _TOOL_KEYWORDS):
+        #     tool_triggered = [kw for kw in _TOOL_KEYWORDS if kw in task_lower]
+        #     needs_tool = True
+        #     route_reasons.append(f"MCP tool needed: {', '.join(tool_triggered)}")
 
     # ── Retrieval worker ─────────────────────────────────────────────────
     elif any(kw in task_lower for kw in _RETRIEVAL_KEYWORDS):

@@ -1,0 +1,141 @@
+{
+  "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+  "route_reason": "risk_high: unknown error code detected | unknown error code + risk_high → human_review | human approved → retrieval",
+  "risk_high": true,
+  "needs_tool": false,
+  "hitl_triggered": true,
+  "retrieved_chunks": [
+    {
+      "text": "Q: Tôi quên mật khẩu, phải làm gì?\nA: Truy cập https://sso.company.internal/reset hoặc liên hệ Helpdesk qua ext. 9000. Mật khẩu mới sẽ được gửi qua email công ty trong vòng 5 phút.",
+      "metadata": {
+        "access_level": "internal",
+        "source": "support/helpdesk-faq.md",
+        "effective_date": "2026-01-20",
+        "chunk_index": 0,
+        "total_chunks": 12,
+        "access": "internal",
+        "has_answer": true,
+        "doc_id": "it_helpdesk_faq",
+        "version": "v1.0",
+        "next_chunk_id": "it_helpdesk_faq_c01",
+        "chunk_type": "QA-Pair",
+        "department": "IT",
+        "chunk_id": "it_helpdesk_faq_c00",
+        "char_count": 180,
+        "language": "vi",
+        "section_title": "Tài khoản và mật khẩu"
+      },
+      "score": 0.4192028045654297
+    },
+    {
+      "text": "Q: Tôi bị mất kết nối VPN liên tục, phải làm gì?\nA: Kiểm tra kết nối Internet trước. Nếu vẫn lỗi, tạo ticket P3 với log file VPN đính kèm.",
+      "metadata": {
+        "char_count": 138,
+        "effective_date": "2026-01-20",
+        "prev_chunk_id": "it_helpdesk_faq_c03",
+        "language": "vi",
+        "source": "support/helpdesk-faq.md",
+        "section_title": "VPN và kết nối từ xa",
+        "access_level": "internal",
+        "chunk_id": "it_helpdesk_faq_c04",
+        "total_chunks": 12,
+        "chunk_type": "QA-Pair",
+        "next_chunk_id": "it_helpdesk_faq_c05",
+        "version": "v1.0",
+        "doc_id": "it_helpdesk_faq",
+        "access": "internal",
+        "has_answer": true,
+        "chunk_index": 4,
+        "department": "IT"
+      },
+      "score": 0.4159735441207886
+    },
+    {
+      "text": "P2 — HIGH (Nghiêm trọng):\nĐịnh nghĩa: Sự cố ảnh hưởng một phần hệ thống, có workaround tạm thời.\nVí dụ: Một số tính năng không hoạt động, ảnh hưởng một nhóm người dùng.\n\nTicket P2:\n- Phản hồi ban đầu: 2 giờ.\n- Xử lý và khắc phục: 1 ngày làm việc.\n- Escalation: Tự động escalate sau 90 phút không có phản hồi.",
+      "metadata": {
+        "doc_id": "sla_p1_2026",
+        "chunk_index": 1,
+        "effective_date": "2026-01-15",
+        "version": "v1.0",
+        "access_level": "internal",
+        "chunk_type": "Priority-Group",
+        "access": "internal",
+        "prev_chunk_id": "sla_p1_2026_c00",
+        "source": "support/sla-p1-2026.pdf",
+        "char_count": 308,
+        "section_title": "P2 Info",
+        "department": "IT",
+        "language": "vi",
+        "total_chunks": 6,
+        "next_chunk_id": "sla_p1_2026_c02",
+        "chunk_id": "sla_p1_2026_c01"
+      },
+      "score": 0.40030765533447266
+    }
+  ],
+  "retrieved_sources": [
+    "support/sla-p1-2026.pdf",
+    "support/helpdesk-faq.md"
+  ],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "final_answer": "Không đủ thông tin trong tài liệu nội bộ.",
+  "sources": [
+    "unknown"
+  ],
+  "confidence": 0.3,
+  "history": [
+    "[supervisor] received task: ERR-403-AUTH là lỗi gì và cách xử lý?",
+    "[supervisor] route=human_review needs_tool=False risk_high=True reason=risk_high: unknown error code detected | unknown error code + risk_high → human_review",
+    "[human_review] HITL triggered — awaiting human input",
+    "[retrieval_worker] called",
+    "[retrieval_worker] retrieved 3 chunks from ['support/sla-p1-2026.pdf', 'support/helpdesk-faq.md']",
+    "[retrieval_worker] retrieved 3 chunks",
+    "[synthesis_worker] called",
+    "[synthesis_worker] answer generated, confidence=0.3, sources=['unknown']",
+    "[synthesis_worker] answer generated, confidence=0.3",
+    "[graph] completed in 1575ms"
+  ],
+  "workers_called": [
+    "human_review",
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 1575,
+  "run_id": "run_20260414_154436",
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+        "top_k": 3
+      },
+      "output": {
+        "chunks_count": 3,
+        "sources": [
+          "support/sla-p1-2026.pdf",
+          "support/helpdesk-faq.md"
+        ]
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+        "chunks_count": 3,
+        "has_policy": false
+      },
+      "output": {
+        "answer_length": 41,
+        "sources": [
+          "unknown"
+        ],
+        "confidence": 0.3
+      },
+      "error": null
+    }
+  ],
+  "question_id": "q09"
+}
