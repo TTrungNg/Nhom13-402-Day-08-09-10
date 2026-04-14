@@ -20,9 +20,7 @@ Sử dụng:
     # Call a tool
     result = dispatch_tool("search_kb", {"query": "SLA P1", "top_k": 3})
 
-Sprint 3 TODO:
-    - Option Standard: Sử dụng file này as-is (mock class)
-    - Option Advanced: Implement HTTP server với FastAPI hoặc dùng `mcp` library
+Nâng cao (bonus): HTTP server (FastAPI) hoặc MCP SDK — xem cuối file.
 
 Chạy thử:
     python mcp_server.py
@@ -134,10 +132,10 @@ TOOL_SCHEMAS = {
 
 def tool_search_kb(query: str, top_k: int = 3) -> dict:
     """
-    Tìm kiếm Knowledge Base bằng semantic search.
+    Tìm kiếm Knowledge Base bằng semantic search (ChromaDB).
 
-    TODO Sprint 3: Kết nối với ChromaDB thực.
-    Hiện tại: Delegate sang retrieval worker.
+    Triển khai: gọi `retrieve_dense` trong workers/retrieval.py — chỉ MCP server
+    được phép đi đường này cho tool `search_kb`; policy worker chỉ gọi dispatch_tool.
     """
     try:
         # Tái dùng retrieval logic từ workers/retrieval.py
@@ -375,4 +373,4 @@ if __name__ == "__main__":
     print(f"  Error: {err.get('error')}")
 
     print("\n✅ MCP server test done.")
-    print("\nTODO Sprint 3: Implement HTTP server nếu muốn bonus +2.")
+    print("\n(Bonus +2) HTTP/MCP SDK server: thêm FastAPI hoặc mcp package nếu cần.")
