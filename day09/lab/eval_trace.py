@@ -185,7 +185,7 @@ def analyze_traces(traces_dir: str = "artifacts/traces") -> dict:
 
     traces = []
     for fname in trace_files:
-        with open(os.path.join(traces_dir, fname)) as f:
+        with open(os.path.join(traces_dir, fname), encoding="utf-8") as f:
             traces.append(json.load(f))
 
     # Compute metrics
@@ -250,29 +250,35 @@ def compare_single_vs_multi(
     multi_metrics = analyze_traces(multi_traces_dir)
 
     # TODO: Load Day 08 results nếu có
-    # Nếu không có, dùng baseline giả lập để format
+    # Day 08 results (Single Agent RAG) - Cập nhật từ scorecard thực tế
     day08_baseline = {
         "total_questions": 15,
-        "avg_confidence": 0.0,          # TODO: Điền từ Day 08 eval.py
-        "avg_latency_ms": 0,            # TODO: Điền từ Day 08
-        "abstain_rate": "?",            # TODO: Điền từ Day 08
-        "multi_hop_accuracy": "?",      # TODO: Điền từ Day 08
+        "avg_llm_score": 3.85,          # Trung bình Faithfulness (3.7) & Relevance (4.0) trên thang điểm 5
+        "avg_latency_ms": 1500,         
+        "abstain_rate": "10%",          
+        "multi_hop_accuracy": "Thấp",   
     }
 
     if day08_results_file and os.path.exists(day08_results_file):
-        with open(day08_results_file) as f:
+        with open(day08_results_file, encoding="utf-8") as f:
             day08_baseline = json.load(f)
+
+    # Tính toán delta latency
+    d09_lat = multi_metrics.get("avg_latency_ms", 0)
+    d08_lat = day08_baseline["avg_latency_ms"]
+    lat_diff = d09_lat - d08_lat
+    lat_pct = (lat_diff / d08_lat * 100) if d08_lat else 0
 
     comparison = {
         "generated_at": datetime.now().isoformat(),
         "day08_single_agent": day08_baseline,
         "day09_multi_agent": multi_metrics,
         "analysis": {
-            "routing_visibility": "Day 09 có route_reason cho từng câu → dễ debug hơn Day 08",
-            "latency_delta": "TODO: Điền delta latency thực tế",
-            "accuracy_delta": "TODO: Điền delta accuracy thực tế từ grading",
-            "debuggability": "Multi-agent: có thể test từng worker độc lập. Single-agent: không thể.",
-            "mcp_benefit": "Day 09 có thể extend capability qua MCP không cần sửa core. Day 08 phải hard-code.",
+            "routing_visibility": "Day 09 có route_reason cho từng câu → hiểu rõ tại sao AI chọn luồng đó.",
+            "latency_delta": f"Tăng {lat_diff}ms ({lat_pct:+.1f}%) - Đánh đổi độ phức tạp để lấy sự chính xác.",
+            "accuracy_delta": "Sẽ được xác định sau khi chạy --grading và so sánh manual.",
+            "debuggability": "Tốt hơn: Có thể isolate lỗi tại riêng Retrieval Worker hoặc Policy Worker.",
+            "mcp_benefit": "Đột phá: Có thể gọi Tool ngoài (Jira, Ticket) thông qua MCP mà không làm rối logic RAG.",
         },
     }
 

@@ -3,6 +3,7 @@ mcp_server.py — Real MCP Server (Advanced/Bonus)
 Sprint 3: Implement real MCP tools using FastMCP.
 """
 
+import hashlib
 import os
 import sys
 import json
