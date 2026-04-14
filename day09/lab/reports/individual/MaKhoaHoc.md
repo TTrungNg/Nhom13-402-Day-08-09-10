@@ -2,8 +2,7 @@
 
 **Họ và tên:** Mã Khoa Học  
 **Vai trò trong nhóm:** MCP Owner  
-**Ngày nộp:** 14/04/2026  
-**Độ dài:** ~650 từ
+**Ngày nộp:** 14/04/2026 
 
 ---
 
