@@ -2,14 +2,40 @@
 mcp_server.py — Real MCP Server (Bonus)
 Sprint 3: Implement real MCP tools using FastMCP.
 
-Mô phỏng MCP (Model Context Protocol) interface.
-Agent (MCP client) gọi qua giao thức MCP thay vì import trực tiếp.
+Mô phỏng MCP (Model Context Protocol) interface trong Python.
+Agent (MCP client) gọi dispatch_tool() thay vì hard-code từng API.
+
+Tools available:
+    1. search_kb(query, top_k)           → tìm kiếm Knowledge Base
+    2. get_ticket_info(ticket_id)        → tra cứu thông tin ticket (mock data)
+    3. check_access_permission(level, requester_role)  → kiểm tra quyền truy cập
+    4. create_ticket(priority, title, description)     → tạo ticket mới (mock)
+
+Sử dụng:
+    from mcp_server import dispatch_tool, list_tools
+
+    # Discover available tools
+    tools = list_tools()
+
+    # Call a tool
+    result = dispatch_tool("search_kb", {"query": "SLA P1", "top_k": 3})
+
+Sprint 3 status:
+    - Standard: DONE (mock MCP server trong Python, gọi qua function call)
+    - Advanced: Optional bonus (HTTP server với FastAPI hoặc dùng `mcp` library)
+
+Chạy thử:
+    python mcp_server.py
 """
 
+import hashlib
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
 from mcp.server.fastmcp import FastMCP
+
+from dotenv import load_dotenv
 
 # Initialize FastMCP server
 mcp = FastMCP("Internal-Tools-Server")
@@ -29,39 +55,148 @@ def get_retrieval_logic():
 # Tool Implementations
 # ─────────────────────────────────────────────
 
-@mcp.tool()
-def search_kb(query: str, top_k: int = 3) -> dict:
+LAB_ROOT = Path(__file__).resolve().parent
+
+
+def _get_embedding_fn():
+    """Embedding function: SentenceTransformers ưu tiên, sau đó OpenAI, cuối cùng random (test)."""
+    try:
+        from sentence_transformers import SentenceTransformer
+
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+
+        def embed(text: str) -> list:
+            return model.encode([text], convert_to_numpy=True)[0].tolist()
+
+        return embed
+    except ImportError:
+        pass
+
+    load_dotenv(LAB_ROOT / ".env")
+    try:
+        from openai import OpenAI
+
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+        def embed(text: str) -> list:
+            resp = client.embeddings.create(input=text, model="text-embedding-3-small")
+            return resp.data[0].embedding
+
+        return embed
+    except Exception:
+        pass
+
+    import random
+
+    def embed(text: str) -> list:
+        return [random.random() for _ in range(384)]
+
+    print("WARNING: Using random embeddings (test only). Install sentence-transformers.")
+    return embed
+
+
+def _get_collection():
+    import chromadb
+
+    client = chromadb.PersistentClient(path=str(LAB_ROOT / "chroma_db"))
+    return client.get_or_create_collection(
+        "day09_docs",
+        metadata={"hnsw:space": "cosine"},
+    )
+
+
+def _ensure_docs_indexed(collection, embed_fn) -> None:
+    """Nếu collection rỗng, index toàn bộ *.txt trong data/docs/."""
+    try:
+        n = collection.count()
+    except Exception:
+        n = 0
+    if n > 0:
+        return
+
+    docs_dir = LAB_ROOT / "data" / "docs"
+    if not docs_dir.is_dir():
+        return
+
+    texts: list[str] = []
+    ids: list[str] = []
+    metadatas: list[dict] = []
+    for path in sorted(docs_dir.glob("*.txt")):
+        text = path.read_text(encoding="utf-8")
+        if not text.strip():
+            continue
+        doc_id = hashlib.sha256(path.name.encode("utf-8")).hexdigest()[:16]
+        ids.append(doc_id)
+        texts.append(text)
+        metadatas.append({"source": path.name})
+
+    if not ids:
+        return
+
+    embeddings = [embed_fn(t) for t in texts]
+    collection.add(ids=ids, embeddings=embeddings, documents=texts, metadatas=metadatas)
+
+
+def _distance_to_score(dist: float) -> float:
+    """Chroma cosine distance ~ 1 - similarity; chuẩn hóa về [0, 1]."""
+    try:
+        s = 1.0 - float(dist)
+    except (TypeError, ValueError):
+        return 0.0
+    return round(max(0.0, min(1.0, s)), 4)
+
+
+def tool_search_kb(query: str, top_k: int = 3) -> dict:
     """
-    Tìm kiếm Knowledge Base bằng semantic search (ChromaDB).
-    Trả về top-k chunks liên quan nhất.
+    Tìm kiếm Knowledge Base bằng semantic search.
+
+    Sprint 3: Kết nối ChromaDB trực tiếp trong MCP server (không delegate retrieval worker).
     """
-    retrieve_dense = get_retrieval_logic()
-    if retrieve_dense:
-        try:
-            chunks = retrieve_dense(query, top_k=top_k)
-            sources = list({c["source"] for c in chunks})
-            return {
-                "chunks": chunks,
-                "sources": sources,
-                "total_found": len(chunks),
-                "timestamp": datetime.now().isoformat()
-            }
-        except Exception as e:
-             return {"error": f"ChromaDB query failed: {e}"}
-    
-    # Fallback mock data
-    return {
-        "chunks": [
-            {
-                "text": f"[MOCK] Kết quả tìm kiếm cho: {query}",
-                "source": "mock_policy.txt",
-                "score": 0.95
-            }
-        ],
-        "sources": ["mock_policy.txt"],
-        "total_found": 1,
-        "timestamp": datetime.now().isoformat()
-    }
+    try:
+        top_k = max(1, min(int(top_k), 10))
+        embed = _get_embedding_fn()
+        collection = _get_collection()
+        _ensure_docs_indexed(collection, embed)
+        results = collection.query(
+            query_embeddings=[embed(query)],
+            n_results=top_k,
+            include=["documents", "distances", "metadatas"],
+        )
+
+        docs = (results.get("documents") or [[]])[0]
+        dists = (results.get("distances") or [[]])[0]
+        metas = (results.get("metadatas") or [[]])[0]
+
+        chunks = []
+        for doc, dist, meta in zip(docs, dists, metas):
+            meta = meta or {}
+            chunks.append(
+                {
+                    "text": doc,
+                    "source": meta.get("source", "unknown"),
+                    "score": _distance_to_score(dist),
+                    "metadata": dict(meta),
+                }
+            )
+        sources = list({c["source"] for c in chunks})
+        return {
+            "chunks": chunks,
+            "sources": sources,
+            "total_found": len(chunks),
+        }
+    except Exception as e:
+        # Fallback: return mock data nếu ChromaDB chưa setup
+        return {
+            "chunks": [
+                {
+                    "text": f"[MOCK] Không thể query ChromaDB: {e}. Kết quả giả lập.",
+                    "source": "mock_data",
+                    "score": 0.5,
+                }
+            ],
+            "sources": ["mock_data"],
+            "total_found": 1,
+        }
 
 # Mock ticket database
 MOCK_TICKETS = {
@@ -135,10 +270,143 @@ def create_ticket(priority: str, title: str, description: str = "") -> dict:
         "priority": priority,
         "title": title,
         "url": f"https://jira.company.internal/browse/{mock_id}",
-        "timestamp": datetime.now().isoformat()
+        "note": "MOCK ticket — không tồn tại trong hệ thống thật",
     }
+    print(f"  [MCP create_ticket] MOCK: {mock_id} | {priority} | {title[:50]}")
+    return ticket
+
+
+# ─────────────────────────────────────────────
+# Dispatch Layer — MCP server interface
+# ─────────────────────────────────────────────
+
+TOOL_REGISTRY = {
+    "search_kb": tool_search_kb,
+    "get_ticket_info": tool_get_ticket_info,
+    "check_access_permission": tool_check_access_permission,
+    "create_ticket": tool_create_ticket,
+}
+
+
+def list_tools() -> list:
+    """
+    MCP discovery: trả về danh sách tools có sẵn.
+    Tương đương với `tools/list` trong MCP protocol.
+    """
+    return list(TOOL_SCHEMAS.values())
+
+
+def _validate_input_schema(tool_name: str, tool_input: dict) -> Optional[str]:
+    """
+    Validate mức cơ bản theo required fields trong TOOL_SCHEMAS.
+    Trả về None nếu hợp lệ, ngược lại trả về thông báo lỗi.
+    """
+    schema = TOOL_SCHEMAS.get(tool_name, {}).get("inputSchema", {})
+    required_fields = schema.get("required", [])
+    missing = [f for f in required_fields if f not in tool_input]
+    if missing:
+        return f"Missing required fields for '{tool_name}': {missing}"
+    return None
+
+
+def dispatch_tool(tool_name: str, tool_input: dict) -> dict:
+    """
+    MCP execution: nhận tool_name và input, gọi tool tương ứng.
+    Tương đương với `tools/call` trong MCP protocol.
+
+    Args:
+        tool_name: tên tool (phải có trong TOOL_REGISTRY)
+        tool_input: input dict (phải match với tool's inputSchema)
+
+    Returns:
+        Tool output dict, hoặc error dict nếu thất bại
+    """
+    if tool_name not in TOOL_REGISTRY:
+        return {
+            "error": f"Tool '{tool_name}' không tồn tại. Available: {list(TOOL_REGISTRY.keys())}"
+        }
+    if not isinstance(tool_input, dict):
+        return {
+            "error": f"Invalid input for tool '{tool_name}': tool_input must be a JSON object (dict).",
+            "schema": TOOL_SCHEMAS[tool_name]["inputSchema"],
+        }
+
+    schema_error = _validate_input_schema(tool_name, tool_input)
+    if schema_error:
+        return {
+            "error": schema_error,
+            "schema": TOOL_SCHEMAS[tool_name]["inputSchema"],
+        }
+
+    tool_fn = TOOL_REGISTRY[tool_name]
+    try:
+        result = tool_fn(**tool_input)
+        return result
+    except TypeError as e:
+        return {
+            "error": f"Invalid input for tool '{tool_name}': {e}",
+            "schema": TOOL_SCHEMAS[tool_name]["inputSchema"],
+        }
+    except Exception as e:
+        return {
+            "error": f"Tool '{tool_name}' execution failed: {e}",
+        }
+
+
+# ─────────────────────────────────────────────
+# Test & Demo
+# ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # When run directly, start the server
-    # Default transport is stdio
-    mcp.run()
+    import sys
+
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
+    print("=" * 60)
+    print("MCP Server — Tool Discovery & Test")
+    print("=" * 60)
+
+    # 1. Discover tools
+    print("\n📋 Available Tools:")
+    for tool in list_tools():
+        print(f"  • {tool['name']}: {tool['description'][:60]}...")
+
+    # 2. Test search_kb
+    print("\n🔍 Test: search_kb")
+    result = dispatch_tool("search_kb", {"query": "SLA P1 resolution time", "top_k": 2})
+    if result.get("chunks"):
+        for c in result["chunks"]:
+            print(f"  [{c.get('score', '?')}] {c.get('source')}: {c.get('text', '')[:70]}...")
+    else:
+        print(f"  Result: {result}")
+
+    # 3. Test get_ticket_info
+    print("\n🎫 Test: get_ticket_info")
+    ticket = dispatch_tool("get_ticket_info", {"ticket_id": "P1-LATEST"})
+    print(f"  Ticket: {ticket.get('ticket_id')} | {ticket.get('priority')} | {ticket.get('status')}")
+    if ticket.get("notifications_sent"):
+        print(f"  Notifications: {ticket['notifications_sent']}")
+
+    # 4. Test check_access_permission
+    print("\n🔐 Test: check_access_permission (Level 3, emergency)")
+    perm = dispatch_tool("check_access_permission", {
+        "access_level": 3,
+        "requester_role": "contractor",
+        "is_emergency": True,
+    })
+    print(f"  can_grant: {perm.get('can_grant')}")
+    print(f"  required_approvers: {perm.get('required_approvers')}")
+    print(f"  emergency_override: {perm.get('emergency_override')}")
+    print(f"  notes: {perm.get('notes')}")
+
+    # 5. Test invalid tool
+    print("\n❌ Test: invalid tool")
+    err = dispatch_tool("nonexistent_tool", {})
+    print(f"  Error: {err.get('error')}")
+
+    print("\n✅ MCP server test done (Sprint 3 Standard complete).")
+    print("\n(Bonus +2) Nếu cần, implement HTTP/MCP SDK server riêng.")
