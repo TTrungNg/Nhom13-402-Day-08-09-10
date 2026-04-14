@@ -1,0 +1,136 @@
+{
+  "task": "Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+  "route_reason": "retrieval keyword matched: p1, sự cố, quy trình",
+  "risk_high": false,
+  "needs_tool": false,
+  "hitl_triggered": false,
+  "retrieved_chunks": [
+    {
+      "text": "P2 — HIGH (Nghiêm trọng):\nĐịnh nghĩa: Sự cố ảnh hưởng một phần hệ thống, có workaround tạm thời.\nVí dụ: Một số tính năng không hoạt động, ảnh hưởng một nhóm người dùng.\n\nTicket P2:\n- Phản hồi ban đầu: 2 giờ.\n- Xử lý và khắc phục: 1 ngày làm việc.\n- Escalation: Tự động escalate sau 90 phút không có phản hồi.",
+      "metadata": {
+        "chunk_type": "Priority-Group",
+        "source": "support/sla-p1-2026.pdf",
+        "chunk_id": "sla_p1_2026_c01",
+        "doc_id": "sla_p1_2026",
+        "department": "IT",
+        "next_chunk_id": "sla_p1_2026_c02",
+        "language": "vi",
+        "total_chunks": 6,
+        "effective_date": "2026-01-15",
+        "char_count": 308,
+        "prev_chunk_id": "sla_p1_2026_c00",
+        "access": "internal",
+        "chunk_index": 1,
+        "section_title": "P2 Info",
+        "version": "v1.0",
+        "access_level": "internal"
+      },
+      "score": 0.55414879322052
+    },
+    {
+      "text": "P1 — CRITICAL (Khẩn cấp):\nĐịnh nghĩa: Sự cố ảnh hưởng toàn bộ hệ thống production, không có workaround.\nVí dụ: Database sập, API gateway down, toàn bộ người dùng không thể đăng nhập.\n\nTicket P1:\n- Phản hồi ban đầu (first response): 15 phút kể từ khi ticket được tạo.\n- Xử lý và khắc phục (resolution): 4 giờ.\n- Escalation: Tự động escalate lên Senior Engineer nếu không có phản hồi trong 10 phút.\n- Thông báo stakeholder: Ngay khi nhận ticket, update mỗi 30 phút cho đến khi resolve.",
+      "metadata": {
+        "total_chunks": 6,
+        "version": "v1.0",
+        "char_count": 483,
+        "chunk_index": 0,
+        "source": "support/sla-p1-2026.pdf",
+        "doc_id": "sla_p1_2026",
+        "department": "IT",
+        "section_title": "P1 Info",
+        "access": "internal",
+        "chunk_id": "sla_p1_2026_c00",
+        "effective_date": "2026-01-15",
+        "chunk_type": "Priority-Group",
+        "next_chunk_id": "sla_p1_2026_c01",
+        "access_level": "internal",
+        "language": "vi"
+      },
+      "score": 0.5411205291748047
+    },
+    {
+      "text": "Context SLA P1:\n- Escalation: Tự động escalate lên Senior Engineer nếu không có phản hồi trong 10 phút.\n- Thông báo stakeholder: Ngay khi nhận ticket, update mỗi 30 phút cho đến khi resolve.\n\nQuy trình:\nBước 1: Tiếp nhận\nOn-call engineer nhận alert hoặc ticket, xác nhận severity trong 5 phút.\n\nBước 2: Thông báo\nGửi thông báo tới Slack #incident-p1 và email incident@company.internal ngay lập tức.\n\nBước 3: Triage và phân công\nLead Engineer phân công engineer xử lý trong 10 phút.\n\nBước 4: Xử lý\nEngineer cập nhật tiến độ lên ticket mỗi 30 phút. Nếu cần hỗ trợ thêm, escalate ngay.\n\nBước 5: Resolution\nSau khi khắc phục, viết incident report trong vòng 24 giờ.",
+      "metadata": {
+        "prev_chunk_id": "sla_p1_2026_c02",
+        "access_level": "internal",
+        "version": "v1.0",
+        "source": "support/sla-p1-2026.pdf",
+        "effective_date": "2026-01-15",
+        "total_chunks": 6,
+        "chunk_id": "sla_p1_2026_c03",
+        "next_chunk_id": "sla_p1_2026_c04",
+        "section_title": "Quy trình P1",
+        "overlap_with": "P1 Info",
+        "department": "IT",
+        "doc_id": "sla_p1_2026",
+        "access": "internal",
+        "language": "vi",
+        "chunk_index": 3,
+        "chunk_type": "Process",
+        "char_count": 661
+      },
+      "score": 0.5278172492980957
+    }
+  ],
+  "retrieved_sources": [
+    "support/sla-p1-2026.pdf"
+  ],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "final_answer": "Quy trình xử lý sự cố P1 gồm 5 bước. Bước đầu tiên là \"Tiếp nhận\", trong đó on-call engineer nhận alert hoặc ticket và xác nhận severity trong 5 phút [2].",
+  "sources": [
+    "unknown"
+  ],
+  "confidence": 0.62,
+  "history": [
+    "[supervisor] received task: Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+    "[supervisor] route=retrieval_worker needs_tool=False risk_high=False reason=retrieval keyword matched: p1, sự cố, quy trình",
+    "[retrieval_worker] called",
+    "[retrieval_worker] retrieved 3 chunks from ['support/sla-p1-2026.pdf']",
+    "[retrieval_worker] retrieved 3 chunks",
+    "[synthesis_worker] called",
+    "[synthesis_worker] answer generated, confidence=0.62, sources=['unknown']",
+    "[synthesis_worker] answer generated, confidence=0.62",
+    "[graph] completed in 3941ms"
+  ],
+  "workers_called": [
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 3941,
+  "run_id": "run_20260414_164549",
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+        "top_k": 3
+      },
+      "output": {
+        "chunks_count": 3,
+        "sources": [
+          "support/sla-p1-2026.pdf"
+        ]
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+        "chunks_count": 3,
+        "has_policy": false
+      },
+      "output": {
+        "answer_length": 154,
+        "sources": [
+          "unknown"
+        ],
+        "confidence": 0.62
+      },
+      "error": null
+    }
+  ],
+  "question_id": "q08"
+}
