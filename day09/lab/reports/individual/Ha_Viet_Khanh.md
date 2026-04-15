@@ -1,6 +1,6 @@
 # Báo Cáo Cá Nhân — Lab Day 09: Multi-Agent Orchestration
 
-**Họ và tên:** Khanh Ha V  
+**Họ và tên:** Hà Việt Khánh
 **Vai trò trong nhóm:** Supervisor Owner  
 **Ngày nộp:** 14/04/2026  
 **Độ dài yêu cầu:** 500–800 từ
@@ -24,7 +24,7 @@ Tôi đóng vai trò trung tâm kết nối:
 
 **Bằng chứng (commit hash, file có comment tên bạn, v.v.):**
 - Code trong `graph.py` định nghĩa cấu trúc `AgentState` và logic `supervisor_node`.
-- Commit commit 575d3aab... (fix chunk feat) và e96f428f... (feat(rag): metadata&chunk) liên quan đến việc đồng nhất dữ liệu giữa retrieval và supervisor.
+
 
 ---
 
@@ -112,5 +112,3 @@ Tôi phụ thuộc vào **MCP Owner** để cung cấp đúng interface `dispatc
 Tôi sẽ thực hiện **LLM-as-a-judge** ngay tại Node Supervisor để gán điểm rủi ro (Risk Score) từ 1-10 thay vì chỉ dùng boolean `risk_high`. Lý do là qua trace của câu hỏi *"Gặp lỗi ERR-5520 lúc 2am"*, hệ thống chỉ báo true/false nhưng không phân loại được mức độ ưu tiên xử lý. Nếu có điểm số, tôi có thể route sang các kênh thông báo khác nhau (Slack/SMS) tùy theo độ nghiêm trọng.
 
 ---
-
-*Lưu file này với tên: `reports/individual/khanh_ha_v.md`*  
