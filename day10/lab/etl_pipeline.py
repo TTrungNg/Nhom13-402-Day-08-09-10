@@ -49,6 +49,8 @@ def _log(path: Path, line: str) -> None:
 def cmd_run(args: argparse.Namespace) -> int:
     run_id = args.run_id or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H-%MZ")
     raw_path = Path(args.raw)
+    if not raw_path.is_absolute():
+        raw_path = (ROOT / raw_path).resolve()
     if not raw_path.is_file():
         print(f"ERROR: raw file not found: {raw_path}", file=sys.stderr)
         return 1
@@ -88,7 +90,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         log("PIPELINE_HALT: expectation suite failed (halt).")
         return 2
     if halt and args.skip_validate:
-        log("WARN: expectation failed but --skip-validate → tiếp tục embed (chỉ dùng cho demo Sprint 3).")
+        log("WARN: expectation failed but --skip-validate => continue embed (Sprint 3 demo only).")
 
     # Embed
     embed_ok = cmd_embed_internal(
@@ -103,10 +105,16 @@ def cmd_run(args: argparse.Namespace) -> int:
     if cleaned:
         latest_exported = max((r.get("exported_at") or "" for r in cleaned), default="")
 
+    raw_rel = raw_path
+    try:
+        raw_rel = raw_path.relative_to(ROOT)
+    except ValueError:
+        raw_rel = raw_path
+
     manifest = {
         "run_id": run_id,
         "run_timestamp": datetime.now(timezone.utc).isoformat(),
-        "raw_path": str(raw_path.relative_to(ROOT)),
+        "raw_path": str(raw_rel),
         "raw_records": raw_count,
         "cleaned_records": len(cleaned),
         "quarantine_records": len(quarantine),
