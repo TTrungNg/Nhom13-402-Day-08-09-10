@@ -42,6 +42,15 @@ def main() -> int:
         return 1
 
     qpath = Path(args.questions)
+    if not qpath.is_file():
+        # Khoá học public bộ câu grading sau; fallback để nhóm vẫn kiểm thử được luồng JSONL.
+        fallback = ROOT / "data" / "test_questions.json"
+        if fallback.is_file():
+            print(f"WARN: grading questions not found, fallback to {fallback}")
+            qpath = fallback
+        else:
+            print(f"questions file not found: {qpath}", file=sys.stderr)
+            return 1
     qs = json.loads(qpath.read_text(encoding="utf-8"))
     db_path = os.environ.get("CHROMA_DB_PATH", str(ROOT / "chroma_db"))
     collection_name = os.environ.get("CHROMA_COLLECTION", "day10_kb")
