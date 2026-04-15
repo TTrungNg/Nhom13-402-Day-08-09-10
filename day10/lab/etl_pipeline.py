@@ -184,7 +184,6 @@ def cmd_embed_internal(cleaned_csv: Path, *, run_id: str, log) -> bool:
     log(f"embed_upsert count={len(ids)} collection={collection_name}")
     return True
 
-
 def cmd_freshness(args: argparse.Namespace) -> int:
     p = Path(args.manifest)
     if not p.is_file():
