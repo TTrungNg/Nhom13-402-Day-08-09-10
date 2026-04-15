@@ -112,5 +112,35 @@ def run_expectations(cleaned_rows: List[Dict[str, Any]]) -> Tuple[List[Expectati
         )
     )
 
+    # E7 (NEW): mọi row phải có exported_at để phục vụ freshness/lineage
+    bad_exported_at = [r for r in cleaned_rows if not (r.get("exported_at") or "").strip()]
+    ok7 = len(bad_exported_at) == 0
+    results.append(
+        ExpectationResult(
+            "no_empty_exported_at",
+            ok7,
+            "halt",
+            f"empty_exported_at={len(bad_exported_at)}",
+        )
+    )
+
+    # E8 (NEW): chunk_id phải unique để đảm bảo upsert idempotent chính xác.
+    seen_ids = set()
+    dup_ids = 0
+    for r in cleaned_rows:
+        cid = (r.get("chunk_id") or "").strip()
+        if cid in seen_ids:
+            dup_ids += 1
+        seen_ids.add(cid)
+    ok8 = dup_ids == 0
+    results.append(
+        ExpectationResult(
+            "chunk_id_unique",
+            ok8,
+            "halt",
+            f"duplicate_chunk_id={dup_ids}",
+        )
+    )
+
     halt = any(not r.passed and r.severity == "halt" for r in results)
     return results, halt
