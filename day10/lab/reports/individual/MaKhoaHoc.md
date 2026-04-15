@@ -41,9 +41,10 @@ Lỗi tôi gặp là khi chạy `grading_run.py` thì script báo thiếu file `
 
 ## 4. Bằng chứng trước / sau (80–120 từ)
 
-Ở run inject `run_id=inject-bad`, log có dòng `refund_no_stale_14d_window FAIL ... violations=1`, nhưng pipeline vẫn embed vì dùng `--skip-validate`. Log cũng có `embed_prune_removed=2` và `embed_upsert count=6`. Trong file `artifacts/eval/after_inject_bad.csv`, câu `q_refund_window` có `hits_forbidden=yes`, nghĩa là top-k còn dính nội dung stale.
+Ở run inject `run_id=inject-bad`, log có dòng `refund_no_stale_14d_window FAIL ... violations=1`, nhưng pipeline vẫn embed vì dùng `--skip-validate`. Log cũng có `embed_prune_removed=2` và `embed_upsert count=6`. Trong file `artifacts/eval/after_inject_bad.csv`, câu `q_refund_window` có `contains_expected=yes` và `top1_doc_id=policy_refund_v4`, nhưng `hits_forbidden=yes`. Nghĩa là top1 nhìn vẫn đúng, nhưng trong toàn bộ top-k vẫn còn chunk stale nên kết quả chưa an toàn.
 
-Sau khi chạy lại bản chuẩn `run_id=sprint3-fix`, log cho thấy expectation đã pass lại và embed vẫn ổn định (`embed_prune_removed=1`, `embed_upsert count=6`). Trong `artifacts/eval/before_after_eval.csv`, câu `q_refund_window` chuyển về `hits_forbidden=no`. Đây là bằng chứng trực tiếp rằng bước fix đã cải thiện retrieval.
+Sau khi chạy lại bản chuẩn `run_id=sprint3-fix`, log cho thấy expectation đã pass lại và embed vẫn ổn định (`embed_prune_removed=1`, `embed_upsert count=6`). Trong `artifacts/eval/before_after_eval.csv`, câu `q_refund_window` giữ `contains_expected=yes` nhưng chuyển từ `hits_forbidden=yes` sang `hits_forbidden=no`. Đây là bằng chứng trực tiếp rằng bước fix đã làm sạch ngữ cảnh retrieval trong top-k.
+
 
 ---
 
