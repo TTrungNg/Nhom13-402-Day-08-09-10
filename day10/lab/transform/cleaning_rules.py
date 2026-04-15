@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
@@ -29,6 +30,36 @@ _DMY_SLASH = re.compile(r"^(\d{2})/(\d{2})/(\d{4})$")
 
 def _norm_text(s: str) -> str:
     return " ".join((s or "").strip().split()).lower()
+
+
+def _normalize_chunk_text(raw: str) -> str:
+    """
+    Rule mới #1:
+    Chuẩn hoá text trước khi dedupe/persist:
+    - bỏ BOM/zero-width char (hay xuất hiện khi copy từ Office)
+    - gom khoảng trắng về 1 space
+    """
+    s = (raw or "").replace("\ufeff", "").replace("\u200b", "")
+    return " ".join(s.strip().split())
+
+
+def _is_iso_datetime(ts: str) -> bool:
+    """
+    Rule mới #2:
+    Kiểm tra exported_at là ISO datetime hợp lệ.
+    Cho phép hậu tố Z hoặc timezone offset.
+    """
+    s = (ts or "").strip()
+    if not s:
+        return False
+    try:
+        if s.endswith("Z"):
+            datetime.fromisoformat(s.replace("Z", "+00:00"))
+        else:
+            datetime.fromisoformat(s)
+        return True
+    except ValueError:
+        return False
 
 
 def _stable_chunk_id(doc_id: str, chunk_text: str, seq: int) -> str:
@@ -77,6 +108,9 @@ def clean_rows(
     4) Quarantine: chunk_text rỗng hoặc effective_date rỗng sau chuẩn hoá.
     5) Loại trùng nội dung chunk_text (giữ bản đầu).
     6) Fix stale refund: policy_refund_v4 chứa '14 ngày làm việc' → 7 ngày.
+    7) (NEW) exported_at phải là ISO datetime; nếu thiếu/sai → quarantine.
+    8) (NEW) Chuẩn hoá chunk_text: bỏ BOM/zero-width + normalize spacing.
+    9) (NEW) Quarantine chunk_text quá ngắn (<20 ký tự) để chặn noise record.
     """
     quarantine: List[Dict[str, Any]] = []
     seen_text: set[str] = set()
@@ -85,7 +119,7 @@ def clean_rows(
 
     for raw in rows:
         doc_id = raw.get("doc_id", "")
-        text = raw.get("chunk_text", "")
+        text = _normalize_chunk_text(raw.get("chunk_text", ""))
         eff_raw = raw.get("effective_date", "")
         exported_at = raw.get("exported_at", "")
 
@@ -113,6 +147,14 @@ def clean_rows(
 
         if not text:
             quarantine.append({**raw, "reason": "missing_chunk_text"})
+            continue
+
+        if len(text) < 20:
+            quarantine.append({**raw, "reason": "chunk_text_too_short", "chunk_text_normalized": text})
+            continue
+
+        if not _is_iso_datetime(exported_at):
+            quarantine.append({**raw, "reason": "invalid_exported_at", "exported_at_raw": exported_at})
             continue
 
         key = _norm_text(text)
