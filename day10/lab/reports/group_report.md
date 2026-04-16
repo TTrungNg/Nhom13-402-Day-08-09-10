@@ -4,12 +4,12 @@
 **Thành viên:**
 | Tên | Vai trò (Day 10) | Email |
 |-----|------------------|-------|
-| Nguyễn Việt Trung | Ingestion / Raw Owner | - |
+| Nguyễn Việt Trung | Ingestion / Raw Owner | trungtomng@gmail.com |
 | Hà Việt Khánh | Cleaning Owner | - |
-| Trần Ngô Hồng Hà | Quality Owner | - |
-| Mã Khoa Học | Embed & Idempotency Owner | - |
-| Nguyễn Tuấn Kiệt | Monitoring Owner | - |
-| Nguyễn Hữu Nam | Docs Owner | - |
+| Trần Ngô Hồng Hà | Quality Owner | bgohonghatran@gmail.com |
+| Mã Khoa Học | Embed & Idempotency Owner | tunglamle132@gmail.com |
+| Nguyễn Tuấn Kiệt | Monitoring Owner | junsikkun@gmail.com |
+| Nguyễn Hữu Nam | Docs Owner | 26ai.namnh@vinuni.edu.vn |
 
 **Ngày nộp:** 2026-04-15  
 **Repo:** day10/lab  
