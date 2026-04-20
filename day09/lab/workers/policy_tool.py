@@ -30,32 +30,67 @@ WORKER_NAME = "policy_tool_worker"
 
 def _call_mcp_tool(tool_name: str, tool_input: dict) -> dict:
     """
-    Gọi MCP tool.
-
-    Sprint 3 TODO: Implement bằng cách import mcp_server hoặc gọi HTTP.
-
-    Hiện tại: Import trực tiếp từ mcp_server.py (trong-process mock).
+    Gọi MCP tool qua MCP client (Bonus).
+    Khởi chạy mcp_server.py làm subprocess.
     """
     from datetime import datetime
+    import asyncio
+    from mcp import ClientSession, StdioServerParameters
+    from mcp.client.stdio import stdio_client
+
+    async def run_client():
+        # Path to mcp_server.py
+        server_path = os.path.join(os.path.dirname(__file__), "..", "mcp_server.py")
+        server_params = StdioServerParameters(
+            command="python",
+            args=[server_path],
+            env=os.environ.copy()
+        )
+
+        async with stdio_client(server_params) as (read, write):
+            async with ClientSession(read, write) as session:
+                await session.initialize()
+                
+                # Call the tool
+                result = await session.call_tool(tool_name, tool_input)
+                
+                # Extract content
+                output_content = {}
+                if hasattr(result, "content") and result.content:
+                    import json
+                    # TextContent holds the response
+                    text = result.content[0].text
+                    try:
+                        # FastMCP often wraps dict results in JSON strings
+                        output_content = json.loads(text)
+                    except:
+                        output_content = {"text": text}
+                
+                return {
+                    "mcp_tool_called": tool_name,
+                    "mcp_result": output_content,
+                    "tool": tool_name,
+                    "input": tool_input,
+                    "output": output_content,
+                    "timestamp": datetime.now().isoformat()
+                }
 
     try:
-        # TODO Sprint 3: Thay bằng real MCP client nếu dùng HTTP server
-        from mcp_server import dispatch_tool
-        result = dispatch_tool(tool_name, tool_input)
-        return {
-            "tool": tool_name,
-            "input": tool_input,
-            "output": result,
-            "error": None,
-            "timestamp": datetime.now().isoformat(),
-        }
+        # Chạy asyncio loop
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        result = loop.run_until_complete(run_client())
+        loop.close()
+        return result
     except Exception as e:
         return {
+            "mcp_tool_called": tool_name,
+            "mcp_result": {"error": str(e)},
             "tool": tool_name,
             "input": tool_input,
             "output": None,
-            "error": {"code": "MCP_CALL_FAILED", "reason": str(e)},
-            "timestamp": datetime.now().isoformat(),
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
         }
 
 
@@ -246,4 +281,4 @@ if __name__ == "__main__":
                 print(f"  exception: {ex['type']} — {ex['rule'][:60]}...")
         print(f"  MCP calls: {len(result.get('mcp_tools_used', []))}")
 
-    print("\n✅ policy_tool_worker test done.")
+    print("\npolicy_tool_worker test done.")
